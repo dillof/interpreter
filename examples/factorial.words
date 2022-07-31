@@ -1,3 +1,5 @@
+set start to five
+
 function factorial with small do
 	if small is equal to zero or small is equal to one then do
 		return one
@@ -6,6 +8,6 @@ function factorial with small do
 	return multiply slightly bigger by small
 done
 
-set big to value of factorial with five
+set big to value of factorial with start
 
 print big
