@@ -1,0 +1,11 @@
+function factorial with small do
+	if small is equal to zero or small is equal to one then do
+		return one
+	done
+	set slightly bigger to value of factorial with subtract one from small
+	return multiply slightly bigger by small
+done
+
+set big to value of factorial with five
+
+print big

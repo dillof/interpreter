@@ -8,7 +8,52 @@
 
 /* Begin PBXBuildFile section */
 		4B077C35289547FE0071C4F2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C34289547FE0071C4F2 /* main.swift */; };
+		4B077C3C289548660071C4F2 /* avpl.y in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3B289548660071C4F2 /* avpl.y */; };
+		4B077C40289556070071C4F2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3F289556070071C4F2 /* Expression.swift */; };
+		4B077C43289556E50071C4F2 /* CitronLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C41289556E50071C4F2 /* CitronLexer.swift */; };
+		4B077C44289556E50071C4F2 /* CitronParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C42289556E50071C4F2 /* CitronParser.swift */; };
+		4B077C46289558140071C4F2 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C45289558140071C4F2 /* Condition.swift */; };
+		4B077C48289559C80071C4F2 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C47289559C80071C4F2 /* Statement.swift */; };
+		4B077C4C289561120071C4F2 /* TokenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4B289561120071C4F2 /* TokenData.swift */; };
+		4B077C4E289569400071C4F2 /* parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4D289569400071C4F2 /* parse.swift */; };
+		4B077C5028956ACF0071C4F2 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4F28956ACF0071C4F2 /* ErrorReporter.swift */; };
+		4B077C5228956D3E0071C4F2 /* HalfComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5128956D3E0071C4F2 /* HalfComparison.swift */; };
+		4B077C5428956F620071C4F2 /* RealAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5328956F620071C4F2 /* RealAssembler.swift */; };
+		4B077C5C2895B03D0071C4F2 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5B2895B03D0071C4F2 /* Environment.swift */; };
+		4B077C5E2895B04F0071C4F2 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5D2895B04F0071C4F2 /* Value.swift */; };
+		4B077C60289676F60071C4F2 /* Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5F289676F60071C4F2 /* Function.swift */; };
+		4B077C62289679270071C4F2 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C61289679270071C4F2 /* RuntimeError.swift */; };
+		4B077C6428967DDE0071C4F2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C6328967DDE0071C4F2 /* Block.swift */; };
+		4B077C662896E3040071C4F2 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C652896E3040071C4F2 /* Lexer.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		4B077C3D289551A50071C4F2 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.y";
+			fileType = pattern.proxy;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+		4B077C3E289551D00071C4F2 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = sourcecode.yacc;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).swift",
+			);
+			runOncePerArchitecture = 0;
+			script = "citron -o ${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.swift ${SCRIPT_INPUT_FILE}\n";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4B077C2F289547FE0071C4F2 /* CopyFiles */ = {
@@ -25,6 +70,26 @@
 /* Begin PBXFileReference section */
 		4B077C31289547FE0071C4F2 /* interpreter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = interpreter; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B077C34289547FE0071C4F2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4B077C3B289548660071C4F2 /* avpl.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = avpl.y; sourceTree = "<group>"; };
+		4B077C3F289556070071C4F2 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		4B077C41289556E50071C4F2 /* CitronLexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitronLexer.swift; sourceTree = "<group>"; };
+		4B077C42289556E50071C4F2 /* CitronParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitronParser.swift; sourceTree = "<group>"; };
+		4B077C45289558140071C4F2 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
+		4B077C47289559C80071C4F2 /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
+		4B077C4B289561120071C4F2 /* TokenData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenData.swift; sourceTree = "<group>"; };
+		4B077C4D289569400071C4F2 /* parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = parse.swift; sourceTree = "<group>"; };
+		4B077C4F28956ACF0071C4F2 /* ErrorReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorReporter.swift; sourceTree = "<group>"; };
+		4B077C5128956D3E0071C4F2 /* HalfComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HalfComparison.swift; sourceTree = "<group>"; };
+		4B077C5328956F620071C4F2 /* RealAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealAssembler.swift; sourceTree = "<group>"; };
+		4B077C58289588620071C4F2 /* factorial.words */ = {isa = PBXFileReference; lastKnownFileType = text; path = factorial.words; sourceTree = "<group>"; };
+		4B077C59289588E80071C4F2 /* simple.words */ = {isa = PBXFileReference; lastKnownFileType = text; path = simple.words; sourceTree = "<group>"; };
+		4B077C5A2895AC900071C4F2 /* test.words */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.words; sourceTree = "<group>"; };
+		4B077C5B2895B03D0071C4F2 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		4B077C5D2895B04F0071C4F2 /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
+		4B077C5F289676F60071C4F2 /* Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Function.swift; sourceTree = "<group>"; };
+		4B077C61289679270071C4F2 /* RuntimeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeError.swift; sourceTree = "<group>"; };
+		4B077C6328967DDE0071C4F2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		4B077C652896E3040071C4F2 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +106,7 @@
 		4B077C28289547FE0071C4F2 = {
 			isa = PBXGroup;
 			children = (
+				4B077C57289588410071C4F2 /* examples */,
 				4B077C33289547FE0071C4F2 /* interpreter */,
 				4B077C32289547FE0071C4F2 /* Products */,
 			);
@@ -57,9 +123,36 @@
 		4B077C33289547FE0071C4F2 /* interpreter */ = {
 			isa = PBXGroup;
 			children = (
+				4B077C3B289548660071C4F2 /* avpl.y */,
+				4B077C6328967DDE0071C4F2 /* Block.swift */,
+				4B077C41289556E50071C4F2 /* CitronLexer.swift */,
+				4B077C42289556E50071C4F2 /* CitronParser.swift */,
+				4B077C45289558140071C4F2 /* Condition.swift */,
+				4B077C5B2895B03D0071C4F2 /* Environment.swift */,
+				4B077C4F28956ACF0071C4F2 /* ErrorReporter.swift */,
+				4B077C3F289556070071C4F2 /* Expression.swift */,
+				4B077C5F289676F60071C4F2 /* Function.swift */,
+				4B077C5128956D3E0071C4F2 /* HalfComparison.swift */,
 				4B077C34289547FE0071C4F2 /* main.swift */,
+				4B077C4D289569400071C4F2 /* parse.swift */,
+				4B077C5328956F620071C4F2 /* RealAssembler.swift */,
+				4B077C61289679270071C4F2 /* RuntimeError.swift */,
+				4B077C47289559C80071C4F2 /* Statement.swift */,
+				4B077C4B289561120071C4F2 /* TokenData.swift */,
+				4B077C5D2895B04F0071C4F2 /* Value.swift */,
+				4B077C652896E3040071C4F2 /* Lexer.swift */,
 			);
 			path = interpreter;
+			sourceTree = "<group>";
+		};
+		4B077C57289588410071C4F2 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				4B077C58289588620071C4F2 /* factorial.words */,
+				4B077C59289588E80071C4F2 /* simple.words */,
+				4B077C5A2895AC900071C4F2 /* test.words */,
+			);
+			path = examples;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +167,8 @@
 				4B077C2F289547FE0071C4F2 /* CopyFiles */,
 			);
 			buildRules = (
+				4B077C3E289551D00071C4F2 /* PBXBuildRule */,
+				4B077C3D289551A50071C4F2 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -120,7 +215,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B077C4C289561120071C4F2 /* TokenData.swift in Sources */,
+				4B077C5028956ACF0071C4F2 /* ErrorReporter.swift in Sources */,
+				4B077C5E2895B04F0071C4F2 /* Value.swift in Sources */,
+				4B077C5428956F620071C4F2 /* RealAssembler.swift in Sources */,
+				4B077C5C2895B03D0071C4F2 /* Environment.swift in Sources */,
+				4B077C4E289569400071C4F2 /* parse.swift in Sources */,
+				4B077C3C289548660071C4F2 /* avpl.y in Sources */,
+				4B077C46289558140071C4F2 /* Condition.swift in Sources */,
 				4B077C35289547FE0071C4F2 /* main.swift in Sources */,
+				4B077C60289676F60071C4F2 /* Function.swift in Sources */,
+				4B077C6428967DDE0071C4F2 /* Block.swift in Sources */,
+				4B077C48289559C80071C4F2 /* Statement.swift in Sources */,
+				4B077C62289679270071C4F2 /* RuntimeError.swift in Sources */,
+				4B077C40289556070071C4F2 /* Expression.swift in Sources */,
+				4B077C43289556E50071C4F2 /* CitronLexer.swift in Sources */,
+				4B077C5228956D3E0071C4F2 /* HalfComparison.swift in Sources */,
+				4B077C662896E3040071C4F2 /* Lexer.swift in Sources */,
+				4B077C44289556E50071C4F2 /* CitronParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
