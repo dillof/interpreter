@@ -38,7 +38,7 @@ indirect enum Expression {
     case Value(Value)
     case Name(String)
     case Condition(Condition)
-    case FunctionCall(name: String, arguments: [Expression])
+    case FunctionCall(name: String, arguments: [String:Expression])
     
     func evaluate(environment: Environment) throws -> Value {
         switch self {

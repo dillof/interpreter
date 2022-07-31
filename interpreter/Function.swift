@@ -31,12 +31,26 @@
 import Foundation
 
 struct Function {
-    func execute(arguments argumentExpressions: [Expression], environment: Environment) throws -> Value {
-        let argumentValues = try argumentExpressions.map({ try $0.evaluate(environment: environment) })
+    func execute(arguments actualArguments: [String:Expression], environment: Environment) throws -> Value {
+        for name in actualArguments.keys {
+            if !arguments.keys.contains(name) {
+                throw RuntimeError.UnexpectedArgument(name)
+            }
+        }
+
         let innerEnvironment = try environment.addingScope()
-        
-        for (name, value) in zip(arguments, argumentValues) {
-            innerEnvironment.set(variable: name, to: value, locally: true)
+        for (name, required) in arguments {
+            if let expression = actualArguments[name] {
+                innerEnvironment.set(variable: name, to: try expression.evaluate(environment: environment), locally: true)
+            }
+            else {
+                if required {
+                    throw RuntimeError.MissingArgument(name)
+                }
+                else {
+                    innerEnvironment.set(variable: name, to: .Nothing, locally: true)
+                }
+            }
         }
 
         if let value = try body.execute(environment: innerEnvironment) {
@@ -47,6 +61,6 @@ struct Function {
         }
     }
     
-    var arguments = [String]()
+    var arguments = [String:Bool]()
     var body = Block()
 }

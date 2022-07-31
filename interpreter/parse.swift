@@ -46,8 +46,10 @@ func parse(input_file: String) -> Block? {
             // Keywords
             .string("add", (.Keyword, .ADD)),
             .string("and", (.Keyword, .AND)),
+            .string("as", (.Keyword, .AS)),
             .string("by", (.Keyword, .BY)),
             .string("call", (.Keyword, .CALL)),
+            .string("define", (.Keyword, .DEFINE)),
             .string("divide", (.Keyword, .DIVIDE)),
             .string("done", (.Keyword, .DONE)),
             .string("do", (.Keyword, .DO)),
@@ -68,6 +70,7 @@ func parse(input_file: String) -> Block? {
             .string("nothing", (.Keyword, .NOTHING)),
             .string("not", (.Keyword, .NOT)),
             .string("of", (.Keyword, .OF)),
+            .string("optional", (.Keyword, .OPTIONAL)),
             .string("or", (.Keyword, .OR)),
             .string("print", (.Keyword, .PRINT)),
             .string("return", (.Keyword, .RETURN)),

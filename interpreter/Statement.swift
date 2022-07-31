@@ -35,7 +35,7 @@ enum Statement {
     case FunctionCall(Expression)
     case Return(Expression)
     case If(condition: Condition, then_part: Block, else_part: Block)
-    case FunctionDefinition(name: String, arguments: [String], body: Block)
+    case FunctionDefinition(name: String, arguments: [String:Bool], body: Block)
     case Print(Expression)
     
     func execute(environment: Environment) throws -> Value? {

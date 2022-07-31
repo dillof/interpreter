@@ -99,15 +99,15 @@ expression ::= condition(c) . { return .Condition(c) }
 //expression ::=	CONVERT term TO basic_type
 
 
-%nonterminal_type argument_list "[Expression]"
+%nonterminal_type argument_list "[String: Expression]"
 
-argument_list ::= expression(t) . { return [t] }
-argument_list ::= argument_list(l) AND expression(t) . { return l.appending(t) }
+argument_list ::= name(n) AS expression(t) . { return [n: t] }
+argument_list ::= argument_list(l) AND name(n) AS expression(t) . { return l.adding(key: n, value: t) }
 
 
 %nonterminal_type function_call Expression
 
-function_call ::= name(n) . { return .FunctionCall(name: n, arguments: []) }
+function_call ::= name(n) . { return .FunctionCall(name: n, arguments: [:]) }
 function_call ::= name(n) WITH argument_list(a) . { return .FunctionCall(name: n, arguments: a)}
 
 
@@ -120,16 +120,18 @@ statement ::= IF condition(c) THEN DO statement_list(t) DONE . { return .If(cond
 statement ::= IF condition(c) THEN DO statement_list(t) ELSE DO statement_list(e) DONE . { return .If(condition: c, then_part: Block(t), else_part: Block(e)) }
 statement ::= PRINT expression(e) . { return .Print(e) }
 
-%nonterminal_type name_list "[String]"
+%nonterminal_type name_list "[String: Bool]"
 
-name_list ::= name(n) . { return [n] }
-name_list ::= name_list(l) AND name(n) . { return l.appending(n) }
+name_list ::= OPTIONAL name(n) . { return [n: false] }
+name_list ::= name(n) . { return [n: true] }
+name_list ::= name_list(l) AND name(n) . { return l.adding(key: n, value: true) }
+name_list ::= name_list(l) AND OPTIONAL name(n) . { return l.adding(key: n, value: false) }
 
 
 %nonterminal_type function_definition Statement
 
-function_definition ::= FUNCTION name(n) WITH name_list(a) DO statement_list(b) DONE . { return .FunctionDefinition(name:n, arguments:a, body:Block(b)) }
-function_definition ::= FUNCTION name(n) DO statement_list(b) DONE . { return .FunctionDefinition(name: n, arguments:[], body:Block(b)) }
+function_definition ::= DEFINE FUNCTION name(n) WITH name_list(a) AS statement_list(b) DONE . { return .FunctionDefinition(name:n, arguments:a, body:Block(b)) }
+function_definition ::= DEFINE FUNCTION name(n) AS statement_list(b) DONE . { return .FunctionDefinition(name: n, arguments:[:], body:Block(b)) }
 
 
 %nonterminal_type unit Statement

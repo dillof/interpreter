@@ -91,6 +91,7 @@
 		4B077C652896E3040071C4F2 /* Lexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lexer.swift; sourceTree = "<group>"; };
 		4B077C672896F3BC0071C4F2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4B077C682896F9B70071C4F2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		4B077C692896FC110071C4F2 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +110,7 @@
 			children = (
 				4B077C682896F9B70071C4F2 /* LICENSE */,
 				4B077C672896F3BC0071C4F2 /* README.md */,
+				4B077C692896FC110071C4F2 /* TODO.md */,
 				4B077C57289588410071C4F2 /* examples */,
 				4B077C33289547FE0071C4F2 /* interpreter */,
 				4B077C32289547FE0071C4F2 /* Products */,

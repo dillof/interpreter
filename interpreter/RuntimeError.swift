@@ -34,9 +34,11 @@ enum RuntimeError: Error {
     case CallStackOverflow
     case DivisionByZero
     case InvalidTypeForOperation
+    case MissingArgument(String)
     case NestedFunction
     case NotAFunction
     case RedefineFunction
     case UndefinedFunction(String)
     case UndefinedVariable(String)
+    case UnexpectedArgument(String)
 }

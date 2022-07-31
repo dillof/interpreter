@@ -51,3 +51,11 @@ extension Array {
         return newArray
     }
 }
+
+extension Dictionary {
+    func adding(key: Key, value: Value) -> [Key: Value] {
+        var newDictionary = self
+        newDictionary[key] = value
+        return newDictionary
+    }
+}
