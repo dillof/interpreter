@@ -31,7 +31,7 @@
 import Foundation
 
 enum Statement {
-    case Set(name: String, value: Expression)
+    case Set(name: String, value: Expression, locally: Bool)
     case FunctionCall(Expression)
     case Return(Expression)
     case If(condition: Condition, then_part: Block, else_part: Block)
@@ -40,8 +40,8 @@ enum Statement {
     
     func execute(environment: Environment) throws -> Value? {
         switch self {
-        case .Set(name: let name, value: let value):
-            environment.set(variable: name, to: try value.evaluate(environment: environment))
+        case .Set(name: let name, value: let value, let locally):
+            environment.set(variable: name, to: try value.evaluate(environment: environment), locally: locally)
             
         case .FunctionCall(let e):
             switch e {

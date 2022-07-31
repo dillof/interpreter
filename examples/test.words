@@ -1,1 +1,9 @@
-set doing to multiply slightly bigger by small
+set test to one million two hundred thousand eight hundred seventy three dot one seven nine
+
+print divide test by two dot five
+
+print divide three by two
+
+define function none as set d to zero done
+
+print value of none

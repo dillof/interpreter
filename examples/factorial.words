@@ -4,8 +4,8 @@ define function factorial with small as
 	if small is equal to zero or small is equal to one then do
 		return one
 	done
-	set slightly bigger to value of factorial with small as subtract one from small
-	return multiply slightly bigger by small
+	set slightly bigger to value of factorial with small as small minus one
+	return slightly bigger times small
 done
 
 set big to value of factorial with small as start

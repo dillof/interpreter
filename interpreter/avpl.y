@@ -87,16 +87,16 @@ term ::= TRUE . { return .Value(.Boolean(true)) }
 term ::= FALSE . { return .Value(.Boolean(false)) }
 term ::= NOTHING . { return .Value(.Nothing) }
 
+
 %nonterminal_type expression Expression
 
 expression ::= term(t) . { return t }
-expression ::= ADD term(l) TO term(r) . { return .Add(left: l, right: r) }
-expression ::= MULTIPLY term(l) BY term(r) . { return .Multiply(left: l, right: r) }
-expression ::= SUBTRACT term(l) FROM term(r) . { return .Subtract(left: l, right: r) }
-expression ::= DIVIDE term(l) BY term(r) . { return .Divide(left: l, right: r) }
+expression ::= term(l) PLUS term(r) . { return .Add(left: l, right: r) }
+expression ::= term(l) TIMES term(r) . { return .Multiply(left: l, right: r) }
+expression ::= term(l) MINUS term(r) . { return .Subtract(left: l, right: r) }
+expression ::= term(l) DIVIDED BY term(r) . { return .Divide(left: l, right: r) }
 expression ::= VALUE OF function_call(f) . { return f }
 expression ::= condition(c) . { return .Condition(c) }
-//expression ::=	CONVERT term TO basic_type
 
 
 %nonterminal_type argument_list "[String: Expression]"
@@ -113,7 +113,8 @@ function_call ::= name(n) WITH argument_list(a) . { return .FunctionCall(name: n
 
 %nonterminal_type statement Statement
 
-statement ::= SET name(n) TO expression(e) . { return .Set(name: n, value: e)}
+statement ::= SET name(n) TO expression(e) . { return .Set(name: n, value: e, locally: false)}
+statement ::= LOCALLY SET name(n) TO expression(e) . { return .Set(name: n, value: e, locally: true)}
 statement ::= CALL function_call(f) . { return .FunctionCall(f) }
 statement ::= RETURN expression(e) . { return .Return(e) }
 statement ::= IF condition(c) THEN DO statement_list(t) DONE . { return .If(condition: c, then_part: Block(t), else_part: Block()) }

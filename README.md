@@ -1,11 +1,13 @@
 #  A Rather Verbose Programming Language
 ## (Made up Entirely of English Words)
 
-This is a programming language that only uses english words, without any other characters, including puctuation or even digits.
+This is a programming language that only uses English words, without any other characters, including punctuation or even digits.
 
-Nubmers are spelled out, for example `one hundred seventy two`.
+Numbers are spelled out, for example `one hundred seventy two`.
 
-Variable and function names consist of one or more known english words, none of which can be a reserved keyword; for example `my first variable`.
+Variable and function names consist of one or more known English words, none of which can be a reserved keyword; for example `my first variable`.
+
+The language is still evolving and might change incompatibly at any time. Also, the interpreter is not heavily tested and probably contains bugs.
 
 The following program computes the factorial of five:
 
@@ -16,8 +18,8 @@ define function factorial with small as
     if small is equal to zero or small is equal to one then do
         return one
     done
-    set slightly bigger to value of factorial with small as subtract one from small
-    return multiply slightly bigger by small
+    set slightly bigger to value of factorial with small as small minus one
+    return slightly bigger times small
 done
 
 set big to value of factorial with small as start

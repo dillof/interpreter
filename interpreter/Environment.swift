@@ -31,7 +31,7 @@
 import Foundation
 
 class Environment {
-    static let MaximumStackDepth = 5000
+    static let MaximumStackDepth = 750
     
     init() { }
     
@@ -41,6 +41,7 @@ class Environment {
             throw RuntimeError.CallStackOverflow
         }
         self.parent = parent
+        self.stackDepth = parent.stackDepth + 1
     }
     
     func addingScope() throws -> Environment {
@@ -64,7 +65,7 @@ class Environment {
             variables[variable] = value
         }
         else {
-            parent?.set(variable: variable, to: value, locally: locally)
+            parent?.set(variable: variable, to: value)
         }
     }
     

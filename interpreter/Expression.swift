@@ -80,13 +80,13 @@ indirect enum Expression {
 
             switch (leftValue, rightValue) {
             case (.Integer(let l), .Integer(let r)):
-                return .Integer(r - l)
+                return .Integer(l - r)
             case (.Integer(let l), .Real(let r)):
-                return .Real(r - Double(l))
+                return .Real(Double(l) - r)
             case (.Real(let l), .Integer(let r)):
-                return .Real(Double(r) - l)
+                return .Real(l - Double(r))
             case (.Real(let l), .Real(let r)):
-                return .Real(r - l)
+                return .Real(l - r)
             default:
                 throw RuntimeError.InvalidTypeForOperation
             }
