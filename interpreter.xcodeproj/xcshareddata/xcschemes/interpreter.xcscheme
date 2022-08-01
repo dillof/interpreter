@@ -52,7 +52,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "${SRCROOT}/examples/factorial.words"
+            argument = "${SRCROOT}/examples/test.words"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

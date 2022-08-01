@@ -30,7 +30,78 @@
 
 import Foundation
 
-typealias Lexer = CitronLexer<(token: TokenData, code: Parser.CitronTokenCode)>
+typealias Lexer = CitronLexer<String>
+
+let keywords: [String: (token: TokenData, code: Parser.CitronTokenCode)] = [
+    "and": (.Keyword, .AND),
+    "as": (.Keyword, .AS),
+    "by": (.Keyword, .BY),
+    "call": (.Keyword, .CALL),
+    "define": (.Keyword, .DEFINE),
+    "divided": (.Keyword, .DIVIDED),
+    "do": (.Keyword, .DO),
+    "done": (.Keyword, .DONE),
+    "dot": (.Keyword, .DOT),
+    "eight": (.Number(8), .ONES),
+    "eighteen": (.Number(18), .TEENS),
+    "eighty": (.Number(80), .TENS),
+    "eleven": (.Number(11), .TEENS),
+    "else": (.Keyword, .ELSE),
+    "equal": (.Keyword, .EQUAL),
+    "false": (.Keyword, .FALSE),
+    "fifteen": (.Number(15), .TEENS),
+    "fifty": (.Number(50), .TENS),
+    "five": (.Number(5), .ONES),
+    "four": (.Number(4), .ONES),
+    "fourteen": (.Number(14), .TEENS),
+    "fourty": (.Number(40), .TENS),
+    "function": (.Keyword, .FUNCTION),
+    "greater": (.Keyword, .GREATER),
+    "hundred": (.Keyword, .HUNDRED),
+    "if": (.Keyword, .IF),
+    "is": (.Keyword, .IS),
+    "less": (.Keyword, .LESS),
+    "locally": (.Keyword, .LOCALLY),
+    "million": (.Keyword, .MILLON),
+    "millon": (.Keyword, .MILLON),
+    "minus": (.Keyword, .MINUS),
+    "nine": (.Number(9), .ONES),
+    "nineteen": (.Number(19), .TEENS),
+    "ninety": (.Number(90), .TENS),
+    "not": (.Keyword, .NOT),
+    "nothing": (.Keyword, .NOTHING),
+    "of": (.Keyword, .OF),
+    "one": (.Number(1), .ONES),
+    "optional": (.Keyword, .OPTIONAL),
+    "or": (.Keyword, .OR),
+    "plus": (.Keyword, .PLUS),
+    "print": (.Keyword, .PRINT),
+    "return": (.Keyword, .RETURN),
+    "set": (.Keyword, .SET),
+    "seven": (.Number(7), .ONES),
+    "seventeen": (.Number(17), .TEENS),
+    "seventy": (.Number(70), .TENS),
+    "six": (.Number(6), .ONES),
+    "sixteen": (.Number(16), .TEENS),
+    "sixty": (.Number(60), .TENS),
+    "ten": (.Number(10), .TEENS),
+    "than": (.Keyword, .THAN),
+    "then": (.Keyword, .THEN),
+    "thirteen": (.Number(13), .TEENS),
+    "thirty": (.Number(30), .TENS),
+    "thousand": (.Keyword, .THOUSAND),
+    "three": (.Number(3), .ONES),
+    "times": (.Keyword, .TIMES),
+    "to": (.Keyword, .TO),
+    "true": (.Keyword, .TRUE),
+    "twelve": (.Number(12), .TEENS),
+    "twenty": (.Number(20), .TENS),
+    "two": (.Number(2), .ONES),
+    "value": (.Keyword, .VALUE),
+    "with": (.Keyword, .WITH),
+    "word": (.Keyword, .WORD),
+    "zero": (.Number(0), .ONES)
+]
 
 func parse(input_file: String) -> Block? {
     do {
@@ -38,104 +109,33 @@ func parse(input_file: String) -> Block? {
 
         // Create parser
         let parser = Parser()
+        //parser.isTracingEnabled = true
         
-        // parser.isTracingEnabled = true
         // Create lexer
         
         let lexer = Lexer(rules: [
-            // Keywords
-            .string("zero", (.Number(0), .ONES)),
-            .string("word", (.Keyword, .WORD)),
-            .string("with", (.Keyword, .WITH)),
-            .string("value", (.Keyword, .VALUE)),
-            .string("two", (.Number(2), .ONES)),
-            .string("twenty", (.Number(20), .TENS)),
-            .string("twelve", (.Number(12), .TEENS)),
-            .string("true", (.Keyword, .TRUE)),
-            .string("to", (.Keyword, .TO)),
-            .string("times", (.Keyword, .TIMES)),
-            .string("three", (.Number(3), .ONES)),
-            .string("thousand", (.Keyword, .THOUSAND)),
-            .string("thirty", (.Number(30), .TENS)),
-            .string("thirteen", (.Number(13), .TEENS)),
-            .string("then", (.Keyword, .THEN)),
-            .string("than", (.Keyword, .THAN)),
-            .string("ten", (.Number(10), .TEENS)),
-            .string("sixty", (.Number(60), .TENS)),
-            .string("sixteen", (.Number(16), .TEENS)),
-            .string("six", (.Number(6), .ONES)),
-            .string("seventy", (.Number(70), .TENS)),
-            .string("seventeen", (.Number(17), .TEENS)),
-            .string("seven", (.Number(7), .ONES)),
-            .string("set", (.Keyword, .SET)),
-            .string("return", (.Keyword, .RETURN)),
-            .string("print", (.Keyword, .PRINT)),
-            .string("plus", (.Keyword, .PLUS)),
-            .string("or", (.Keyword, .OR)),
-            .string("optional", (.Keyword, .OPTIONAL)),
-            .string("one", (.Number(1), .ONES)),
-            .string("of", (.Keyword, .OF)),
-            .string("nothing", (.Keyword, .NOTHING)),
-            .string("not", (.Keyword, .NOT)),
-            .string("ninety", (.Number(90), .TENS)),
-            .string("nineteen", (.Number(19), .TEENS)),
-            .string("nine", (.Number(9), .ONES)),
-            .string("minus", (.Keyword, .MINUS)),
-            .string("millon", (.Keyword, .MILLON)),
-            .string("million", (.Keyword, .MILLON)),
-            .string("locally", (.Keyword, .LOCALLY)),
-            .string("less", (.Keyword, .LESS)),
-            .string("is", (.Keyword, .IS)),
-            .string("if", (.Keyword, .IF)),
-            .string("hundred", (.Keyword, .HUNDRED)),
-            .string("greater", (.Keyword, .GREATER)),
-            .string("function", (.Keyword, .FUNCTION)),
-            .string("fourty", (.Number(40), .TENS)),
-            .string("fourteen", (.Number(14), .TEENS)),
-            .string("four", (.Number(4), .ONES)),
-            .string("five", (.Number(5), .ONES)),
-            .string("fifty", (.Number(50), .TENS)),
-            .string("fifteen", (.Number(15), .TEENS)),
-            .string("false", (.Keyword, .FALSE)),
-            .string("equal", (.Keyword, .EQUAL)),
-            .string("else", (.Keyword, .ELSE)),
-            .string("eleven", (.Number(11), .TEENS)),
-            .string("eighty", (.Number(80), .TENS)),
-            .string("eighteen", (.Number(18), .TEENS)),
-            .string("eight", (.Number(8), .ONES)),
-            .string("dot", (.Keyword, .DOT)),
-            .string("done", (.Keyword, .DONE)),
-            .string("do", (.Keyword, .DO)),
-            .string("divided", (.Keyword, .DIVIDED)),
-            .string("define", (.Keyword, .DEFINE)),
-            .string("call", (.Keyword, .CALL)),
-            .string("by", (.Keyword, .BY)),
-            .string("as", (.Keyword, .AS)),
-            .string("and", (.Keyword, .AND)),
-
-
-
+            // Return words.
+            .regexPattern("[a-zA-Z]+", { str in str }),
             
-            
-                .regexPattern("[a-z]+", { str in (.Word(str), .WORD) }),
-            
-            // Ignore whitespace
+            // Ignore whitespace.
             .regexPattern("\\s", { _ in nil })
         ])
         
         
-        // Enable error capturing
+        // Enable error capturing.
         let errorReporter = ErrorReporter(input: input)
         parser.errorCaptureDelegate = errorReporter
-
-        // TODO: fix lexer
-        // - make case insensitive
-        // - only accept words
-        // - don't accept prefix
         
         try lexer.tokenize(input,
-            onFound: { t in
-                try parser.consume(token: (token: t.token, position: lexer.currentPosition), code: t.code)
+            onFound: { str in
+                let word = str.lowercased()
+                if let token = keywords[word] {
+                    try parser.consume(token: (token: token.token, position: lexer.currentPosition), code: token.code)
+                }
+                else {
+                    // TODO: Check that it is a known English word.
+                    try parser.consume(token: (.Word(word), position: lexer.currentPosition), code: .WORD)
+                }
             },
             onError: { (e) in
                 try parser.consume(lexerError: e)

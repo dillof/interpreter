@@ -1,5 +1,5 @@
-- Fix the lexer:
-  - Don't accept the prefix of a longer word as a keyword.
-  - Make the language case insensitive.
-  - Only accept known English words.
+- Only accept known English words.
+- Improve error reporting.
+- Include line number in runtime errors.
+- Allow interpreter to be used interactively.
 - Document the language.
