@@ -32,6 +32,19 @@ import Foundation
 
 typealias Lexer = CitronLexer<String>
 
+func read_words() -> Set<String>? {
+    do {
+        let wordlist = try String(contentsOf: URL(fileURLWithPath: "/usr/share/dict/web2"))
+        let words = wordlist.split(separator: "\n").map { $0.lowercased() }
+        return Set<String>(words)
+    }
+    catch {
+        return nil
+    }
+}
+
+let words = read_words()
+
 let keywords: [String: (token: TokenData, code: Parser.CitronTokenCode)] = [
     "and": (.Keyword, .AND),
     "as": (.Keyword, .AS),
@@ -133,7 +146,9 @@ func parse(input_file: String) -> Block? {
                     try parser.consume(token: (token: token.token, position: lexer.currentPosition), code: token.code)
                 }
                 else {
-                    // TODO: Check that it is a known English word.
+                    if let words = words, !words.contains(word) {
+                        try parser.consume(lexerError: CitronLexerError.invalidWord(word, at: lexer.currentPosition))
+                    }
                     try parser.consume(token: (.Word(word), position: lexer.currentPosition), code: .WORD)
                 }
             },
@@ -147,7 +162,7 @@ func parse(input_file: String) -> Block? {
         }
         return program
     } catch CitronLexerError.noMatchingRuleAt(let pos) {
-        //print("Error during tokenization after '\(input.prefix(upTo: pos.tokenPosition))'.")
+        print("Error during tokenization after \(pos)'.")
     } catch (let e as Parser.UnexpectedTokenError) {
        print("Error during parsing: Unexpected token: \(e.tokenCode) (\(e.token))")
     } catch (is Parser.UnexpectedEndOfInputError) {

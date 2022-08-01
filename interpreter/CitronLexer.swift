@@ -121,6 +121,7 @@ class CitronLexer<TokenData> {
 
 enum CitronLexerError: Error {
     case noMatchingRuleAt(errorPosition: CitronLexerPosition)
+    case invalidWord(String, at: CitronLexerPosition)
 }
 
 private extension CitronLexer {

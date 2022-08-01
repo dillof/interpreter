@@ -41,9 +41,6 @@ if CommandLine.argc != 2 {
             print("Runtime error \(error)")
         }
     }
-    else {
-        print("Got no program?!")
-    }
 }
 
 

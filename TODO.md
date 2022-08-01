@@ -1,4 +1,3 @@
-- Only accept known English words.
 - Improve error reporting.
 - Include line number in runtime errors.
 - Allow interpreter to be used interactively.
