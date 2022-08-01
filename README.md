@@ -7,7 +7,7 @@ Numbers are spelled out, for example `one hundred seventy two`.
 
 Variable and function names consist of one or more known English words, none of which can be a reserved keyword; for example `my first variable`.
 
-The language is still evolving and might change incompatibly at any time. Also, the interpreter is not heavily tested and probably contains bugs.
+**Warning**: The language is still evolving and might change incompatibly at any time. Also, the interpreter is not heavily tested and probably contains bugs.
 
 The following program computes the factorial of five:
 
