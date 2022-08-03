@@ -1,3 +1,8 @@
+%preface {
+  import CitronParserModule
+  import CitronLexerModule
+}
+
 %token_type "(token: TokenData, position: CitronLexerPosition)"
 
 %nonterminal_type program "Block"

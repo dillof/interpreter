@@ -28,6 +28,9 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+import CitronLexerModule
+import CitronParserModule
+
 class ErrorReporter {
     let inputString: String
     var endOfInputPosition: CitronLexerPosition?
@@ -91,63 +94,21 @@ extension ErrorReporter {
         } else {
             errorPosition = state.erroringToken?.token.position ?? endOfInputPosition!
         }
-
-        #if false
-        switch (errorCapturingSymbol) {
-        case .func_header:
-            switch (lastResolvedSymbolCode) {
-            case .some(.func_signature):
-              croak("extra characters after function header", at: errorPosition)
-            default:
-                // Can't really happen?
-                croak("error in specifying function header", at: errorPosition)
-            }
-        case .func_keyword_name:
-            switch (lastResolvedSymbolCode) {
-            case .some(.funcHeaderKeywordFunc):
-                croak("expected function name after 'func'", at: errorPosition)
-            default:
-                croak("expected 'func' keyword", at: errorPosition)
-            }
-        case .param_clause:
-            switch (lastResolvedSymbolCode) {
-            case .some(.funcHeaderOpenBracket):
-                croak("expected parameter", at: errorPosition)
-            default:
-                croak("expected parameters list enclosed in (parantheses), or just '()' for an empty list", at: errorPosition)
-            }
-        case .func_signature:
-            switch (lastResolvedSymbolCode) {
-            case .some(.param_clause):
-                croak("expected '->' or 'throws' or 'rethrows' or end of function header", at: errorPosition)
-            case .some(.funcHeaderKeywordThrows): fallthrough
-            case .some(.funcHeaderKeywordRethrows):
-                croak("expected '->'", at: errorPosition)
-            case .some(.funcHeaderArrow):
-                croak("expected result type", at: errorPosition)
-            default:
-                // Can't really happen?
-                croak("error in specifying return type", at: errorPosition)
-            }
-        case .param:
-            switch (lastResolvedSymbolCode) {
-            case .some(.local_param_name): fallthrough
-            case .some(.external_param_name): fallthrough
-            case .some(.funcHeaderIdentifier):
-                croak("expected ':' after parameter name", at: errorPosition)
-            case .some(.funcHeaderColon):
-                croak("expected type identifier or 'inout' after ':'", at: errorPosition)
-            case .some(.funcHeaderKeywordInout):
-                croak("expected type identifier after 'inout'", at: errorPosition)
-            case .some(.param_list):
-                croak("expected ',' or ')' after parameter specification", at: errorPosition)
-            default:
-                croak("expected parameter specification", at: errorPosition)
-            }
+        
+        switch (errorCapturingSymbol, lastResolvedSymbolCode) {
+        case (.integer_tens, .some(.integer)),
+            (.integer_hundreds, .some(.integer)),
+            (.integer_thousands, .some(.integer)),
+            (.integer_millions, .some(.integer)):
+            croak("invalid number", at: errorPosition)
+        case (.integer_tens, _),
+            (.integer_hundreds, _),
+            (.integer_thousands, _),
+            (.integer_millions, _):
+            croak("unexpected number", at: errorPosition)
         default:
-            fatalError()
+            croak("unexpected token", at:errorPosition)
         }
-        #endif
     }
 
     func croak(_ message: String, at position: CitronLexerPosition) {

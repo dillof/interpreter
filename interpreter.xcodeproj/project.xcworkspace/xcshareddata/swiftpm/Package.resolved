@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "citron",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/roop/citron",
+      "state" : {
+        "branch" : "master",
+        "revision" : "2ae70b254f6b8bb1692459ff44bbb7f8dd5de1e4"
+      }
+    }
+  ],
+  "version" : 2
+}

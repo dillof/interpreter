@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B04AA8B289A839E00A33F93 /* CitronLexerModule in Frameworks */ = {isa = PBXBuildFile; productRef = 4B04AA8A289A839E00A33F93 /* CitronLexerModule */; };
+		4B04AA8D289A839E00A33F93 /* CitronParserModule in Frameworks */ = {isa = PBXBuildFile; productRef = 4B04AA8C289A839E00A33F93 /* CitronParserModule */; };
 		4B077C35289547FE0071C4F2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C34289547FE0071C4F2 /* main.swift */; };
 		4B077C3C289548660071C4F2 /* avpl.y in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3B289548660071C4F2 /* avpl.y */; };
 		4B077C40289556070071C4F2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3F289556070071C4F2 /* Expression.swift */; };
-		4B077C43289556E50071C4F2 /* CitronLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C41289556E50071C4F2 /* CitronLexer.swift */; };
-		4B077C44289556E50071C4F2 /* CitronParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C42289556E50071C4F2 /* CitronParser.swift */; };
 		4B077C46289558140071C4F2 /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C45289558140071C4F2 /* Condition.swift */; };
 		4B077C48289559C80071C4F2 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C47289559C80071C4F2 /* Statement.swift */; };
 		4B077C4C289561120071C4F2 /* TokenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4B289561120071C4F2 /* TokenData.swift */; };
@@ -50,7 +50,7 @@
 				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).swift",
 			);
 			runOncePerArchitecture = 0;
-			script = "citron -o ${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.swift ${SCRIPT_INPUT_FILE}\n";
+			script = "citron -i -o ${DERIVED_FILE_DIR}/${INPUT_FILE_BASE}.swift ${SCRIPT_INPUT_FILE}\n";
 		};
 /* End PBXBuildRule section */
 
@@ -71,8 +71,6 @@
 		4B077C34289547FE0071C4F2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4B077C3B289548660071C4F2 /* avpl.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = avpl.y; sourceTree = "<group>"; };
 		4B077C3F289556070071C4F2 /* Expression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		4B077C41289556E50071C4F2 /* CitronLexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitronLexer.swift; sourceTree = "<group>"; };
-		4B077C42289556E50071C4F2 /* CitronParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CitronParser.swift; sourceTree = "<group>"; };
 		4B077C45289558140071C4F2 /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
 		4B077C47289559C80071C4F2 /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
 		4B077C4B289561120071C4F2 /* TokenData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenData.swift; sourceTree = "<group>"; };
@@ -99,6 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B04AA8D289A839E00A33F93 /* CitronParserModule in Frameworks */,
+				4B04AA8B289A839E00A33F93 /* CitronLexerModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,8 +130,6 @@
 			children = (
 				4B077C3B289548660071C4F2 /* avpl.y */,
 				4B077C6328967DDE0071C4F2 /* Block.swift */,
-				4B077C41289556E50071C4F2 /* CitronLexer.swift */,
-				4B077C42289556E50071C4F2 /* CitronParser.swift */,
 				4B077C45289558140071C4F2 /* Condition.swift */,
 				4B077C5B2895B03D0071C4F2 /* Environment.swift */,
 				4B077C4F28956ACF0071C4F2 /* ErrorReporter.swift */,
@@ -178,6 +176,10 @@
 			dependencies = (
 			);
 			name = interpreter;
+			packageProductDependencies = (
+				4B04AA8A289A839E00A33F93 /* CitronLexerModule */,
+				4B04AA8C289A839E00A33F93 /* CitronParserModule */,
+			);
 			productName = interpreter;
 			productReference = 4B077C31289547FE0071C4F2 /* interpreter */;
 			productType = "com.apple.product-type.tool";
@@ -206,6 +208,9 @@
 				Base,
 			);
 			mainGroup = 4B077C28289547FE0071C4F2;
+			packageReferences = (
+				4B04AA89289A839E00A33F93 /* XCRemoteSwiftPackageReference "citron" */,
+			);
 			productRefGroup = 4B077C32289547FE0071C4F2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -234,9 +239,7 @@
 				4B077C48289559C80071C4F2 /* Statement.swift in Sources */,
 				4B077C62289679270071C4F2 /* RuntimeError.swift in Sources */,
 				4B077C40289556070071C4F2 /* Expression.swift in Sources */,
-				4B077C43289556E50071C4F2 /* CitronLexer.swift in Sources */,
 				4B077C5228956D3E0071C4F2 /* HalfComparison.swift in Sources */,
-				4B077C44289556E50071C4F2 /* CitronParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +403,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4B04AA89289A839E00A33F93 /* XCRemoteSwiftPackageReference "citron" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roop/citron";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4B04AA8A289A839E00A33F93 /* CitronLexerModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B04AA89289A839E00A33F93 /* XCRemoteSwiftPackageReference "citron" */;
+			productName = CitronLexerModule;
+		};
+		4B04AA8C289A839E00A33F93 /* CitronParserModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4B04AA89289A839E00A33F93 /* XCRemoteSwiftPackageReference "citron" */;
+			productName = CitronParserModule;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4B077C29289547FE0071C4F2 /* Project object */;
 }

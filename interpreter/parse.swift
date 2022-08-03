@@ -29,6 +29,8 @@
 */
 
 import Foundation
+import CitronLexerModule
+import CitronParserModule
 
 typealias Lexer = CitronLexer<String>
 
@@ -147,7 +149,7 @@ func parse(input_file: String) -> Block? {
                 }
                 else {
                     if let words = words, !words.contains(word) {
-                        try parser.consume(lexerError: CitronLexerError.invalidWord(word, at: lexer.currentPosition))
+                        try parser.consume(lexerError: CitronLexerError.noMatchingRuleAt(errorPosition: lexer.currentPosition))
                     }
                     try parser.consume(token: (.Word(word), position: lexer.currentPosition), code: .WORD)
                 }
