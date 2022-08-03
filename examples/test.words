@@ -11,3 +11,5 @@ print value of none
 Set doodad to True
 
 print Doodad
+
+print zero divided by zero

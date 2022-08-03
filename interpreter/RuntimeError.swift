@@ -30,15 +30,40 @@
 
 import Foundation
 
-enum RuntimeError: Error {
+enum RuntimeError: LocalizedError {
     case CallStackOverflow
     case DivisionByZero
     case InvalidTypeForOperation
-    case MissingArgument(String)
+    case MissingArgument(function: String, argument: String)
     case NestedFunction
-    case NotAFunction
-    case RedefineFunction
+    case InternalError
+    case RedefineFunction(String)
     case UndefinedFunction(String)
     case UndefinedVariable(String)
-    case UnexpectedArgument(String)
+    case UnexpectedArgument(function: String, argument: String)
+    
+    var errorDescription: String? {
+        switch self {
+        case .CallStackOverflow:
+            return "Function calls are nested too deeply, probably due to a runaway recursion."
+        case .DivisionByZero:
+            return "Dividing by zero is undefined."
+        case .InternalError:
+            return "A situation arose that should not be possible; this is probably a bug in the interpreter."
+        case .InvalidTypeForOperation:
+            return "The operation cannot be performed on these types of values."
+        case .MissingArgument(let function, let argument):
+            return "The call to the function \(function) is missing the required argument \(argument)."
+        case .NestedFunction:
+            return "Functions can only be defined at the top level of the program."
+        case .RedefineFunction(let name):
+            return "Function \(name) is already defined."
+        case .UndefinedFunction(let name):
+            return "The function \(name) has not been defined."
+        case .UndefinedVariable(let name):
+            return "The variable \(name) was not set before being used."
+        case .UnexpectedArgument(let function, let argument):
+            return "The call to the function \(function) passed the unexpected argument \(argument)."
+        }
+    }
 }

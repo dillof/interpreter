@@ -48,7 +48,7 @@ enum Statement {
             case .FunctionCall(_, _):
                 let _ = try e.evaluate(environment: environment)
             default:
-                throw RuntimeError.NotAFunction
+                throw RuntimeError.InternalError
             }
             
         case .Return(let value):
@@ -63,7 +63,7 @@ enum Statement {
             }
             
         case .FunctionDefinition(name: let name, arguments: let arguments, body: let body):
-            try environment.define(function: name, definition: Function(arguments: arguments, body: body))
+            try environment.define(function: name, definition: Function(name: name, arguments: arguments, body: body))
             
         case .Print(let value):
             print(try value.evaluate(environment: environment))

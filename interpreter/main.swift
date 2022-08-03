@@ -38,7 +38,7 @@ if CommandLine.argc != 2 {
             let _ = try program.execute(environment: Environment())
         }
         catch (let error) {
-            print("Runtime error \(error)")
+            print("\(error.localizedDescription)")
         }
     }
 }

@@ -86,7 +86,7 @@ class Environment {
             throw RuntimeError.NestedFunction
         }
         if functions.keys.contains(name) {
-            throw RuntimeError.RedefineFunction
+            throw RuntimeError.RedefineFunction(name)
         }
         functions[name] = definition
     }
