@@ -1,4 +1,4 @@
-set test to one million two hundred thousand eight hundred seventy three dot one seven nine
+set test to one million two hundred thousand eight hundred seventy three dot one seven nine times one million five
 
 print test divided by two dot five
 

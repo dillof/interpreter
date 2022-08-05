@@ -1,9 +1,8 @@
 %preface {
   import CitronParserModule
-  import CitronLexerModule
 }
 
-%token_type "(token: TokenData, position: CitronLexerPosition)"
+%token_type "(token: TokenData, position: Lexer.Position)"
 
 %nonterminal_type program "Block"
 
@@ -21,6 +20,10 @@ name ::= name(n) WORD(w) . { return n + " " + w.token.word! }
 %nonterminal_type integer_hundreds Int
 %nonterminal_type integer_thousands Int
 %nonterminal_type integer_millions Int
+%nonterminal_type integer_billions Int
+%nonterminal_type integer_trillions Int
+%nonterminal_type integer_quadrillions Int
+%nonterminal_type integer_quintillions Int
 %nonterminal_type integer Int
 
 integer_tens ::= TEENS(t) . { return t.token.number! }
@@ -36,11 +39,27 @@ integer_thousands ::= integer_hundreds(t) THOUSAND integer_hundreds(i) . { retur
 integer_thousands ::= integer_hundreds(t) THOUSAND . { return t * 1000 }
 integer_thousands ::= integer_hundreds(i) . { return i }
 
-integer_millions ::= integer_hundreds(m) MILLON integer_thousands(i) . { return m * 1000000 + i }
-integer_millions ::= integer_hundreds(m) MILLON . { return m * 1000000 }
+integer_millions ::= integer_hundreds(m) MILLION integer_thousands(i) . { return m * 1000000 + i }
+integer_millions ::= integer_hundreds(m) MILLION . { return m * 1000000 }
 integer_millions ::= integer_thousands(i) . { return i }
 
-integer ::= integer_millions(i) . { return i }
+integer_billions ::= integer_hundreds(b) BILLION integer_millions(i) . { return b * 1000000000 + i }
+integer_billions ::= integer_hundreds(b) BILLION . { return b * 1000000000 }
+integer_billions ::= integer_millions(i) . { return i }
+
+integer_trillions ::= integer_hundreds(t) TRILLION integer_billions(i) . { return t * 1000000000000 + i }
+integer_trillions ::= integer_hundreds(t) TRILLION . { return t * 1000000000000 }
+integer_trillions ::= integer_billions(i) . { return i }
+
+integer_quadrillions ::= integer_hundreds(q) QUADRILLION integer_trillions(i) . { return q * 1000000000000000 + i }
+integer_quadrillions ::= integer_hundreds(q) QUADRILLION . { return q * 1000000000000000 }
+integer_quadrillions ::= integer_trillions(i) . { return i }
+
+integer_quintillions ::= integer_hundreds(q) QUINTILLION integer_quadrillions(i) . { return q * 1000000000000000000 + i }
+integer_quintillions ::= integer_hundreds(q) QUINTILLION  . { return q * 1000000000000000000 }
+integer_quintillions ::= integer_quadrillions(i) . { return i }
+
+integer ::= integer_quintillions(i) . { return i }
 
 
 %nonterminal_type real RealAssembler

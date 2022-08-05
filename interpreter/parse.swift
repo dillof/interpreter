@@ -29,10 +29,9 @@
 */
 
 import Foundation
-import CitronLexerModule
 import CitronParserModule
 
-typealias Lexer = CitronLexer<String>
+//typealias Lexer = CitronLexer<String>
 
 func read_words() -> Set<String>? {
     do {
@@ -77,8 +76,7 @@ let keywords: [String: (token: TokenData, code: Parser.CitronTokenCode)] = [
     "is": (.Keyword, .IS),
     "less": (.Keyword, .LESS),
     "locally": (.Keyword, .LOCALLY),
-    "million": (.Keyword, .MILLON),
-    "millon": (.Keyword, .MILLON),
+    "million": (.Keyword, .MILLION),
     "minus": (.Keyword, .MINUS),
     "nine": (.Number(9), .ONES),
     "nineteen": (.Number(19), .TEENS),
@@ -128,47 +126,27 @@ func parse(input_file: String) -> Block? {
         
         // Create lexer
         
-        let lexer = Lexer(rules: [
-            // Return words.
-            .regexPattern("[a-zA-Z]+", { str in str }),
-            
-            // Ignore whitespace.
-            .regexPattern("\\s", { _ in nil })
-        ])
-        
+        let lexer = Lexer(text: input)
         
         // Enable error capturing.
-        let errorReporter = ErrorReporter(input: input)
-        parser.errorCaptureDelegate = errorReporter
+        // let errorReporter = ErrorReporter(input: input)
+        // parser.errorCaptureDelegate = errorReporter
         
-        try lexer.tokenize(input,
-            onFound: { str in
-                let word = str.lowercased()
-                if let token = keywords[word] {
-                    try parser.consume(token: (token: token.token, position: lexer.currentPosition), code: token.code)
-                }
-                else {
-                    if let words = words, !words.contains(word) {
-                        try parser.consume(lexerError: CitronLexerError.noMatchingRuleAt(errorPosition: lexer.currentPosition))
-                    }
-                    try parser.consume(token: (.Word(word), position: lexer.currentPosition), code: .WORD)
-                }
-            },
-            onError: { (e) in
-                try parser.consume(lexerError: e)
-            })
-        errorReporter.endOfInputPosition = lexer.currentPosition
+        for result in lexer {
+            switch result {
+            case .Ok(let token):
+                try parser.consume(token: (token.token, token.position), code: token.code)
+            case .Error(let error):
+                try parser.consume(lexerError: error.error)
+            }
+        }
+        
+        // errorReporter.endOfInputPosition = lexer.currentPosition
         let program = try parser.endParsing()
         if (parser.numberOfCapturedErrors > 0) {
             return nil
         }
         return program
-    } catch CitronLexerError.noMatchingRuleAt(let pos) {
-        print("Error during tokenization after \(pos)'.")
-    } catch (let e as Parser.UnexpectedTokenError) {
-       print("Error during parsing: Unexpected token: \(e.tokenCode) (\(e.token))")
-    } catch (is Parser.UnexpectedEndOfInputError) {
-        print("Error during parsing: Unexpected end of input")
     } catch (let error) {
         print("Error during parsing: \(error)")
     }

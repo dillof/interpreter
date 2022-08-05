@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		4B04AA8B289A839E00A33F93 /* CitronLexerModule in Frameworks */ = {isa = PBXBuildFile; productRef = 4B04AA8A289A839E00A33F93 /* CitronLexerModule */; };
 		4B04AA8D289A839E00A33F93 /* CitronParserModule in Frameworks */ = {isa = PBXBuildFile; productRef = 4B04AA8C289A839E00A33F93 /* CitronParserModule */; };
+		4B04AA8F289A895D00A33F93 /* KnownWords.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B04AA8E289A895D00A33F93 /* KnownWords.swift */; };
+		4B04AA90289A8BCD00A33F93 /* Lexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C652896E3040071C4F2 /* Lexer.swift */; };
+		4B04AAA3289CFE4100A33F93 /* ValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B04AAA2289CFE4100A33F93 /* ValueTests.swift */; };
+		4B04AAA4289D003400A33F93 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5D2895B04F0071C4F2 /* Value.swift */; };
+		4B04AAA5289D004800A33F93 /* RuntimeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C61289679270071C4F2 /* RuntimeError.swift */; };
 		4B077C35289547FE0071C4F2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C34289547FE0071C4F2 /* main.swift */; };
 		4B077C3C289548660071C4F2 /* avpl.y in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3B289548660071C4F2 /* avpl.y */; };
 		4B077C40289556070071C4F2 /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C3F289556070071C4F2 /* Expression.swift */; };
@@ -16,7 +21,6 @@
 		4B077C48289559C80071C4F2 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C47289559C80071C4F2 /* Statement.swift */; };
 		4B077C4C289561120071C4F2 /* TokenData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4B289561120071C4F2 /* TokenData.swift */; };
 		4B077C4E289569400071C4F2 /* parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4D289569400071C4F2 /* parse.swift */; };
-		4B077C5028956ACF0071C4F2 /* ErrorReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C4F28956ACF0071C4F2 /* ErrorReporter.swift */; };
 		4B077C5228956D3E0071C4F2 /* HalfComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5128956D3E0071C4F2 /* HalfComparison.swift */; };
 		4B077C5428956F620071C4F2 /* RealAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5328956F620071C4F2 /* RealAssembler.swift */; };
 		4B077C5C2895B03D0071C4F2 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B077C5B2895B03D0071C4F2 /* Environment.swift */; };
@@ -67,6 +71,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4B04AA8E289A895D00A33F93 /* KnownWords.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnownWords.swift; sourceTree = "<group>"; };
+		4B04AA9B289CFE0400A33F93 /* interpreter-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "interpreter-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B04AAA2289CFE4100A33F93 /* ValueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueTests.swift; sourceTree = "<group>"; };
 		4B077C31289547FE0071C4F2 /* interpreter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = interpreter; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B077C34289547FE0071C4F2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4B077C3B289548660071C4F2 /* avpl.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = avpl.y; sourceTree = "<group>"; };
@@ -93,6 +100,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4B04AA98289CFE0400A33F93 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4B077C2E289547FE0071C4F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -105,6 +119,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B04AA9C289CFE0400A33F93 /* interpreter-tests */ = {
+			isa = PBXGroup;
+			children = (
+				4B04AAA2289CFE4100A33F93 /* ValueTests.swift */,
+			);
+			path = "interpreter-tests";
+			sourceTree = "<group>";
+		};
 		4B077C28289547FE0071C4F2 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +135,7 @@
 				4B077C692896FC110071C4F2 /* TODO.md */,
 				4B077C57289588410071C4F2 /* examples */,
 				4B077C33289547FE0071C4F2 /* interpreter */,
+				4B04AA9C289CFE0400A33F93 /* interpreter-tests */,
 				4B077C32289547FE0071C4F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -121,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				4B077C31289547FE0071C4F2 /* interpreter */,
+				4B04AA9B289CFE0400A33F93 /* interpreter-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -136,6 +160,8 @@
 				4B077C3F289556070071C4F2 /* Expression.swift */,
 				4B077C5F289676F60071C4F2 /* Function.swift */,
 				4B077C5128956D3E0071C4F2 /* HalfComparison.swift */,
+				4B04AA8E289A895D00A33F93 /* KnownWords.swift */,
+				4B077C652896E3040071C4F2 /* Lexer.swift */,
 				4B077C34289547FE0071C4F2 /* main.swift */,
 				4B077C4D289569400071C4F2 /* parse.swift */,
 				4B077C5328956F620071C4F2 /* RealAssembler.swift */,
@@ -143,7 +169,6 @@
 				4B077C47289559C80071C4F2 /* Statement.swift */,
 				4B077C4B289561120071C4F2 /* TokenData.swift */,
 				4B077C5D2895B04F0071C4F2 /* Value.swift */,
-				4B077C652896E3040071C4F2 /* Lexer.swift */,
 			);
 			path = interpreter;
 			sourceTree = "<group>";
@@ -161,6 +186,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4B04AA9A289CFE0400A33F93 /* interpreter-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B04AA9F289CFE0400A33F93 /* Build configuration list for PBXNativeTarget "interpreter-tests" */;
+			buildPhases = (
+				4B04AA97289CFE0400A33F93 /* Sources */,
+				4B04AA98289CFE0400A33F93 /* Frameworks */,
+				4B04AA99289CFE0400A33F93 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "interpreter-tests";
+			productName = "interpreter-tests";
+			productReference = 4B04AA9B289CFE0400A33F93 /* interpreter-tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		4B077C30289547FE0071C4F2 /* interpreter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4B077C38289547FE0071C4F2 /* Build configuration list for PBXNativeTarget "interpreter" */;
@@ -194,6 +236,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					4B04AA9A289CFE0400A33F93 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					4B077C30289547FE0071C4F2 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -216,21 +261,43 @@
 			projectRoot = "";
 			targets = (
 				4B077C30289547FE0071C4F2 /* interpreter */,
+				4B04AA9A289CFE0400A33F93 /* interpreter-tests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		4B04AA99289CFE0400A33F93 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		4B04AA97289CFE0400A33F93 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B04AAA3289CFE4100A33F93 /* ValueTests.swift in Sources */,
+				4B04AAA4289D003400A33F93 /* Value.swift in Sources */,
+				4B04AAA5289D004800A33F93 /* RuntimeError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4B077C2D289547FE0071C4F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4B077C4C289561120071C4F2 /* TokenData.swift in Sources */,
-				4B077C5028956ACF0071C4F2 /* ErrorReporter.swift in Sources */,
+				4B04AA8F289A895D00A33F93 /* KnownWords.swift in Sources */,
 				4B077C5E2895B04F0071C4F2 /* Value.swift in Sources */,
 				4B077C5428956F620071C4F2 /* RealAssembler.swift in Sources */,
 				4B077C5C2895B03D0071C4F2 /* Environment.swift in Sources */,
 				4B077C4E289569400071C4F2 /* parse.swift in Sources */,
+				4B04AA90289A8BCD00A33F93 /* Lexer.swift in Sources */,
 				4B077C3C289548660071C4F2 /* avpl.y in Sources */,
 				4B077C46289558140071C4F2 /* Condition.swift in Sources */,
 				4B077C35289547FE0071C4F2 /* main.swift in Sources */,
@@ -246,6 +313,36 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		4B04AAA0289CFE0400A33F93 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F27CVJNWXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group.tpau.interpreter-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		4B04AAA1289CFE0400A33F93 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = F27CVJNWXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "group.tpau.interpreter-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		4B077C36289547FE0071C4F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -384,6 +481,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4B04AA9F289CFE0400A33F93 /* Build configuration list for PBXNativeTarget "interpreter-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4B04AAA0289CFE0400A33F93 /* Debug */,
+				4B04AAA1289CFE0400A33F93 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4B077C2C289547FE0071C4F2 /* Build configuration list for PBXProject "interpreter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

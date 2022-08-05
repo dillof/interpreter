@@ -28,7 +28,6 @@
   IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import CitronLexerModule
 import CitronParserModule
 
 class ErrorReporter {

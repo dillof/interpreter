@@ -30,7 +30,7 @@
 
 import Foundation
 
-enum RuntimeError: LocalizedError {
+enum RuntimeError: LocalizedError, Equatable {
     case CallStackOverflow
     case DivisionByZero
     case InvalidTypeForOperation

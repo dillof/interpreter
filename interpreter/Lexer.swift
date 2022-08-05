@@ -30,7 +30,12 @@
 
 import Foundation
 
-class MyLexer: Sequence {
+class Lexer: Sequence {
+    enum LexerError : LocalizedError {
+        case InvalidCharacter(Character)
+        case UnknownWord(String)
+    }
+
     struct Position {
         var lineNumber = 1
         var startPosition = 1
@@ -53,7 +58,8 @@ class MyLexer: Sequence {
             endPosition += 1
         }
     }
-    struct Result {
+    
+    struct ResultOk {
         init(token: TokenData, code: Parser.CitronTokenCode, position: Position = Position()) {
             self.token = token
             self.code = code
@@ -63,10 +69,26 @@ class MyLexer: Sequence {
         var code: Parser.CitronTokenCode
         var position: Position
     }
+    
+    struct ResultError {
+        init (error: LexerError, position: Position = Position()) {
+            self.error = error
+            self.position = position
+        }
+        
+        var error: LexerError
+        var position: Position
+    }
+    
+    enum Result {
+        case Ok(ResultOk)
+        case Error(ResultError)
+    }
+    
     struct Iterator: IteratorProtocol {
         typealias Element = Result
         
-        init(_ source: MyLexer) {
+        init(_ source: Lexer) {
             self.source = source
             self.sourceIterator = source.text.makeIterator()
         }
@@ -81,11 +103,12 @@ class MyLexer: Sequence {
                     currentPosition.stepStart()
                 }
                 else if isLetter(c) {
+                    putBack(c)
                     break
                 }
                 else {
-                    // TODO: handle illegal character
-                    currentPosition.stepStart()
+                    currentPosition.stepEnd()
+                    return source.result(from: .InvalidCharacter(c), position: currentPosition)
                 }
             }
             
@@ -103,12 +126,13 @@ class MyLexer: Sequence {
             }
             
             word = word.lowercased()
-            
+                        
             return source.result(from: word, position: currentPosition)
         }
         
         private mutating func nextCharacter() -> Character? {
             if let c = putBack {
+                putBack = nil
                 return c
             }
             else {
@@ -130,7 +154,7 @@ class MyLexer: Sequence {
 
         private var currentPosition = Position()
 
-        private var source: MyLexer
+        private var source: Lexer
         private var sourceIterator: String.Iterator
         private var putBack: Character?
     }
@@ -144,84 +168,99 @@ class MyLexer: Sequence {
     }
     
     private func result(from word: String, position: Position) -> Result {
-        if var result = MyLexer.keywords[word] {
+        if var result = Lexer.keywords[word] {
             result.position = position
-            return result
+            return .Ok(result)
         }
-        // TODO: check for known word
-        return Result(token: .Word(word), code: .WORD, position: position)
+        if Lexer.known_words?.contains(word) ?? true {
+            return .Ok(ResultOk(token: .Word(word), code: .WORD, position: position))
+        }
+        else {
+            return result(from: .UnknownWord(word), position: position)
+        }
+    }
+    
+    private func result(from error: LexerError, position: Position) -> Result {
+        return .Error(ResultError(error: error, position: position))
     }
     
     var text: String
     
     static let keywords = [
-        "add": Result(token: .Keyword, code: .ADD),
-        "and":  Result(token: .Keyword, code: .AND),
-        "by": Result(token: .Keyword, code: .BY),
-        "call": Result(token: .Keyword, code: .CALL),
-        "divide": Result(token: .Keyword, code: .DIVIDE),
-        "done": Result(token: .Keyword, code: .DONE),
-        "do": Result(token: .Keyword, code: .DO),
-        "dot": Result(token: .Keyword, code: .DOT),
-        "else": Result(token: .Keyword, code: .ELSE),
-        "equal": Result(token: .Keyword, code: .EQUAL),
-        "false": Result(token: .Keyword, code: .FALSE),
-        "from": Result(token: .Keyword, code: .FROM),
-        "function": Result(token: .Keyword, code: .FUNCTION),
-        "greater": Result(token: .Keyword, code: .GREATER),
-        "hundred": Result(token: .Keyword, code: .HUNDRED),
-        "if": Result(token: .Keyword, code: .IF),
-        "is": Result(token: .Keyword, code: .IS),
-        "less": Result(token: .Keyword, code: .LESS),
-        "millon": Result(token: .Keyword, code: .MILLON),
-        "minus": Result(token: .Keyword, code: .MINUS),
-        "multiply": Result(token: .Keyword, code: .MULTIPLY),
-        "nothing": Result(token: .Keyword, code: .NOTHING),
-        "not": Result(token: .Keyword, code: .NOT),
-        "of": Result(token: .Keyword, code: .OF),
-        "or": Result(token: .Keyword, code: .OR),
-        "print": Result(token: .Keyword, code: .PRINT),
-        "return": Result(token: .Keyword, code: .RETURN),
-        "set": Result(token: .Keyword, code: .SET),
-        "subtract": Result(token: .Keyword, code: .SUBTRACT),
-        "than": Result(token: .Keyword, code: .THAN),
-        "then": Result(token: .Keyword, code: .THEN),
-        "thousand": Result(token: .Keyword, code: .THOUSAND),
-        "to": Result(token: .Keyword, code: .TO),
-        "true": Result(token: .Keyword, code: .TRUE),
-        "value": Result(token: .Keyword, code: .VALUE),
-        "with": Result(token: .Keyword, code: .WITH),
-        "word": Result(token: .Keyword, code: .WORD),
+        "and":  ResultOk(token: .Keyword, code: .AND),
+        "as": ResultOk(token: .Keyword, code: .AS),
+        "billion": ResultOk(token: .Keyword, code: .BILLION),
+        "by": ResultOk(token: .Keyword, code: .BY),
+        "call": ResultOk(token: .Keyword, code: .CALL),
+        "define": ResultOk(token: .Keyword, code: .DEFINE),
+        "divided": ResultOk(token: .Keyword, code: .DIVIDED),
+        "do": ResultOk(token: .Keyword, code: .DO),
+        "done": ResultOk(token: .Keyword, code: .DONE),
+        "dot": ResultOk(token: .Keyword, code: .DOT),
+        "else": ResultOk(token: .Keyword, code: .ELSE),
+        "equal": ResultOk(token: .Keyword, code: .EQUAL),
+        "false": ResultOk(token: .Keyword, code: .FALSE),
+        "function": ResultOk(token: .Keyword, code: .FUNCTION),
+        "greater": ResultOk(token: .Keyword, code: .GREATER),
+        "hundred": ResultOk(token: .Keyword, code: .HUNDRED),
+        "if": ResultOk(token: .Keyword, code: .IF),
+        "is": ResultOk(token: .Keyword, code: .IS),
+        "less": ResultOk(token: .Keyword, code: .LESS),
+        "locally": ResultOk(token: .Keyword, code: .LOCALLY),
+        "million": ResultOk(token: .Keyword, code: .MILLION),
+        "minus": ResultOk(token: .Keyword, code: .MINUS),
+        "not": ResultOk(token: .Keyword, code: .NOT),
+        "nothing": ResultOk(token: .Keyword, code: .NOTHING),
+        "of": ResultOk(token: .Keyword, code: .OF),
+        "optional": ResultOk(token: .Keyword, code: .OPTIONAL),
+        "or": ResultOk(token: .Keyword, code: .OR),
+        "plus": ResultOk(token: .Keyword, code: .PLUS),
+        "print": ResultOk(token: .Keyword, code: .PRINT),
+        "quadrillion": ResultOk(token: .Keyword, code: .QUADRILLION),
+        "quintillion": ResultOk(token: .Keyword, code: .QUINTILLION),
+        "return": ResultOk(token: .Keyword, code: .RETURN),
+        "set": ResultOk(token: .Keyword, code: .SET),
+        "than": ResultOk(token: .Keyword, code: .THAN),
+        "then": ResultOk(token: .Keyword, code: .THEN),
+        "thousand": ResultOk(token: .Keyword, code: .THOUSAND),
+        "times": ResultOk(token: .Keyword, code: .TIMES),
+        "to": ResultOk(token: .Keyword, code: .TO),
+        "trillion": ResultOk(token: .Keyword, code: .TRILLION),
+        "true": ResultOk(token: .Keyword, code: .TRUE),
+        "value": ResultOk(token: .Keyword, code: .VALUE),
+        "with": ResultOk(token: .Keyword, code: .WITH),
         
-        "zero": Result(token: .Number(0), code: .ONES),
-        "one": Result(token: .Number(1), code: .ONES),
-        "two": Result(token: .Number(2), code: .ONES),
-        "three": Result(token: .Number(3), code: .ONES),
-        "four": Result(token: .Number(4), code: .ONES),
-        "five": Result(token: .Number(5), code: .ONES),
-        "six": Result(token: .Number(6), code: .ONES),
-        "seven": Result(token: .Number(7), code: .ONES),
-        "eight": Result(token: .Number(8), code: .ONES),
-        "nine": Result(token: .Number(9), code: .ONES),
+        "zero": ResultOk(token: .Number(0), code: .ONES),
+        "one": ResultOk(token: .Number(1), code: .ONES),
+        "two": ResultOk(token: .Number(2), code: .ONES),
+        "three": ResultOk(token: .Number(3), code: .ONES),
+        "four": ResultOk(token: .Number(4), code: .ONES),
+        "five": ResultOk(token: .Number(5), code: .ONES),
+        "six": ResultOk(token: .Number(6), code: .ONES),
+        "seven": ResultOk(token: .Number(7), code: .ONES),
+        "eight": ResultOk(token: .Number(8), code: .ONES),
+        "nine": ResultOk(token: .Number(9), code: .ONES),
         
-        "ten": Result(token: .Number(10), code: .TEENS),
-        "eleven": Result(token: .Number(11), code: .TEENS),
-        "twelve": Result(token: .Number(12), code: .TEENS),
-        "thirteen": Result(token: .Number(13), code: .TEENS),
-        "fourteen": Result(token: .Number(14), code: .TEENS),
-        "fifteen": Result(token: .Number(15), code: .TEENS),
-        "sixteen": Result(token: .Number(16), code: .TEENS),
-        "seventeen": Result(token: .Number(17), code: .TEENS),
-        "eighteen": Result(token: .Number(18), code: .TEENS),
-        "nineteen": Result(token: .Number(19), code: .TEENS),
+        "ten": ResultOk(token: .Number(10), code: .TEENS),
+        "eleven": ResultOk(token: .Number(11), code: .TEENS),
+        "twelve": ResultOk(token: .Number(12), code: .TEENS),
+        "thirteen": ResultOk(token: .Number(13), code: .TEENS),
+        "fourteen": ResultOk(token: .Number(14), code: .TEENS),
+        "fifteen": ResultOk(token: .Number(15), code: .TEENS),
+        "sixteen": ResultOk(token: .Number(16), code: .TEENS),
+        "seventeen": ResultOk(token: .Number(17), code: .TEENS),
+        "eighteen": ResultOk(token: .Number(18), code: .TEENS),
+        "nineteen": ResultOk(token: .Number(19), code: .TEENS),
         
-        "twenty": Result(token: .Number(20), code: .TENS),
-        "thirty": Result(token: .Number(30), code: .TENS),
-        "fourty": Result(token: .Number(40), code: .TENS),
-        "fifty": Result(token: .Number(50), code: .TENS),
-        "sixty": Result(token: .Number(60), code: .TENS),
-        "seventy": Result(token: .Number(70), code: .TENS),
-        "eighty": Result(token: .Number(80), code: .TENS),
-        "ninety": Result(token: .Number(90), code: .TENS)
+        "twenty": ResultOk(token: .Number(20), code: .TENS),
+        "thirty": ResultOk(token: .Number(30), code: .TENS),
+        "fourty": ResultOk(token: .Number(40), code: .TENS),
+        "fifty": ResultOk(token: .Number(50), code: .TENS),
+        "sixty": ResultOk(token: .Number(60), code: .TENS),
+        "seventy": ResultOk(token: .Number(70), code: .TENS),
+        "eighty": ResultOk(token: .Number(80), code: .TENS),
+        "ninety": ResultOk(token: .Number(90), code: .TENS)
     ]
+    
+    private static var known_words = KnownWords()
 }

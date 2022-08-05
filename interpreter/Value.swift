@@ -97,21 +97,20 @@ enum Value : Equatable, CustomStringConvertible {
     
     private func format(_ integer: Int) -> [String] {
         var words = [String]()
+        
         var v = integer
-        if (v > 1000000) {
-            words.append(contentsOf: format(v / 1000000))
-            words.append("million")
-            v = v % 1000000
+        
+        if v < 0 {
+            words.append("minus")
+            v = -v
         }
-        if (v > 1000) {
-            words.append(contentsOf: format(v / 1000))
-            words.append("thousand")
-            v = v % 1000
-        }
-        if (v > 100) {
-            words.append(Value.onesWords[v / 100])
-            words.append("hundred")
-            v = v % 100
+
+        for magnitude in Value.magnitudes {
+            if v > magnitude.value {
+                words.append(contentsOf: format(v / magnitude.value))
+                words.append(magnitude.name)
+                v = v % magnitude.value
+            }
         }
         if (v >= 20) {
             words.append(Value.tensWords[v / 10 - 2])
@@ -125,16 +124,24 @@ enum Value : Equatable, CustomStringConvertible {
     }
     
     private func format(_ real: Double) -> [String] {
-        let integer = Int(real)
-        var fraction = real - Double(integer)
-        var words = format(integer)
+        var words = [String]()
+        
+        var v = real
+        
+        if v < 0 {
+            words.append("minus")
+            v = -v
+        }
+        let integer = Int(v)
+        var fraction = abs(v - Double(integer))
+        words.append(contentsOf: format(integer))
         if fraction != 0 {
             words.append("dot")
-
+            
             while fraction != 0 {
                 fraction *= 10
                 let digit = Int(fraction)
-                words.append(contentsOf: format(digit))
+                words.append(Value.onesWords[digit])
                 fraction -= Double(digit)
             }
         }
@@ -142,11 +149,23 @@ enum Value : Equatable, CustomStringConvertible {
         return words
     }
     
-    private static let onesWords = [
-        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
-        "ten", "elven", "twelve", "thirteen", "fourteen", "sixteen", "seventeen", "eighteen", "nineteen"
+    
+    private static let magnitudes = [
+        (name: "quintillion", value: 1000000000000000000),
+        (name: "quadrillion", value: 1000000000000000),
+        (name: "trillion", value: 1000000000000),
+        (name: "billion", value: 1000000000),
+        (name: "million", value: 1000000),
+        (name: "thousand", value: 1000),
+        (name: "hundred", value: 100)
     ]
+
     private static let tensWords = [
         "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"
+    ]
+
+    private static let onesWords = [
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+        "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
     ]
 }
